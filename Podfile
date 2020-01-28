@@ -8,4 +8,6 @@ target 'storeProject' do
     
   # Pods for storeProject
     pod 'Firebase/Auth'
+    pod 'SDWebImage'
+    pod 'Cosmos'
 end
