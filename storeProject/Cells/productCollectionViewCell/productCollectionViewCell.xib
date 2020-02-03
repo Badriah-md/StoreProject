@@ -10,7 +10,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="productCollectionViewCell" customModule="storeProject" customModuleProvider="target">
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="productCollectionViewCell" customModule="store_Project" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="120" height="224"/>
             <autoresizingMask key="autoresizingMask"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -114,6 +114,11 @@
             </constraints>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <size key="customSize" width="120" height="224"/>
+            <connections>
+                <outlet property="Name" destination="KYB-wF-Qnh" id="FEa-bz-Kpg"/>
+                <outlet property="Price" destination="mf2-fC-ebM" id="Gcw-ZM-z9O"/>
+                <outlet property="imageview" destination="nmJ-ru-Nrd" id="SuT-3z-vIy"/>
+            </connections>
             <point key="canvasLocation" x="59.420289855072468" y="89.732142857142847"/>
         </collectionViewCell>
     </objects>
@@ -123,7 +128,7 @@
             <color red="1" green="0.17647058823529413" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="secondary color">
-            <color red="0.99067777400000001" green="0.7038887143" blue="0.45891273020000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.99099999666213989" green="0.70399999618530273" blue="0.45899999141693115" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>

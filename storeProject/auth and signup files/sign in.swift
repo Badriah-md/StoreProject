@@ -31,8 +31,13 @@ class signIn:UIViewController,UIScrollViewDelegate{
             if error == nil {
                 print("welcome")
                 self.dismiss(animated: true, completion: nil)
-            }else{
+            }else if error != nil || (self.email.text)!.isEmpty && (self.password.text)!.isEmpty{
                 print(error.debugDescription)
+                let alert = UIAlertController(title: "Error", message: "password or email is wrong", preferredStyle: .alert)
+                let action = UIAlertAction(title: "ok", style: .default, handler: nil)
+                alert.addAction(action)
+                self.present(alert ,animated: true,completion: nil)
+                
             }
             
         }

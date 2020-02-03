@@ -25,6 +25,11 @@ class signUp: UIViewController{
         Auth.auth().createUser(withEmail: emailText.text!, password: passwordText.text!) { (auth, error) in
             if error == nil{
                 print("welcome to our community")
+                Auth.auth().addStateDidChangeListener { (auth, user) in
+                    guard let User = user else {return}
+                    print(User.uid)
+                    Firestore.firestore().collection("Users").document(User.uid).setData(["Email":self.emailText!])
+                }
                 self.presentingViewController?.presentingViewController?.dismiss(animated: true, completion: nil)
             }else{
                 print(error.debugDescription)

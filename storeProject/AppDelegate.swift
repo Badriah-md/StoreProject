@@ -10,6 +10,7 @@ import UIKit
 import CoreData
 import Firebase
 
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -20,6 +21,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         
         FirebaseApp.configure()
+//        
+//        let db = Firestore.firestore()
+//        let settings = db.settings
+//       
+//        db.settings = settings
+//        Auth.auth().addStateDidChangeListener { (auth, user) in
+//            guard let User = user else {return}
+//            userObjects(ID: User.uid, Stamp: Date().timeIntervalSince1970, Name: "bdoor", IsMale: true, Age: 27).Upload()
+//        }
+        Auth.auth().addStateDidChangeListener { (auth, user) in
+            guard let User = user else {return}
+            userAPI.GetUser(ID: User.uid) { (U:userObjects) in
+                print(U.Name,U.Age)
+            }
+        }
+        
+        
         return true
         
     }

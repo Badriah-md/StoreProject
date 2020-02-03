@@ -7,13 +7,21 @@
 //
 
 import UIKit
+import SDWebImage
 
 class productCollectionViewCell: UICollectionViewCell {
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
+   
+    
+    @IBOutlet weak var Name: UILabel!
+    @IBOutlet weak var Price: UILabel!
+    @IBOutlet weak var imageview: UIImageView!
+    
+    func update(Product:ProductObject){
+        self.Name.text = Product.Name
+        self.Price.text = Product.Price?.description
+        guard let imgString = Product.imageURL,let url = URL(string: imgString) else {return}
+        self.imageview.sd_setImage(with: url, completed: nil)
     }
     
-
 }
