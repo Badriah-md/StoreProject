@@ -13,8 +13,8 @@ class HomeAdCollectionViewCell: UICollectionViewCell {
 
     @IBOutlet weak var imageView: UIImageView!
     
-    func update(URLS:String){
-        if let url = URL(string: URLS){
+    func update(AD:AdsObject){
+        if let str = AD.imageURL, let url = URL(string: str){
             imageView.sd_setImage(with: url, completed: nil)
             self.imageView.contentMode = .scaleAspectFill
             

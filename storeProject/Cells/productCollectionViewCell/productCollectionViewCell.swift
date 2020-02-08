@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import SDWebImage
+
 
 class productCollectionViewCell: UICollectionViewCell {
 
@@ -20,7 +20,7 @@ class productCollectionViewCell: UICollectionViewCell {
     func update(Product:ProductObject){
         self.Name.text = Product.Name
         self.Price.text = Product.Price?.description
-        guard let imgString = Product.imageURL,let url = URL(string: imgString) else {return}
+        guard let imgString = Product.imageURLs?[0],let url = URL(string: imgString) else {return}
         self.imageview.sd_setImage(with: url, completed: nil)
     }
     

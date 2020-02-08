@@ -12,38 +12,53 @@ class HomeVC:UIViewController {
     @IBOutlet weak var productCollectionView: UICollectionView!
     
     @IBOutlet weak var DealsCollectionView: UICollectionView!
-    var Array = [
-    "https://cdn.dribbble.com/users/1171505/screenshots/4886597/world_in_hands-800x600-01.png",
-    "https://cdn.dribbble.com/users/1272091/screenshots/6490294/home.jpg",
-    "https://cdn.dribbble.com/users/1027942/screenshots/5938356/el-paso_2x.png",
-    "https://cdn.dribbble.com/users/257709/screenshots/6398360/shop__2__2x.png"
-    ]
+    var AdArray: [AdsObject] = []
     
     var productsArray: [ProductObject] = []
     var DealProdArray:[String] = ["",""]
     var scrollTimer = Timer()
     
+    @IBOutlet weak var Deals: UIButton!
     
     
     @IBOutlet weak var collectionview: UICollectionView!
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         settingUpCollectionView()
        getData()
+     
    
-        
-        
-       
     }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        flash()
+    }
+    func flash(){
+           let flash = CABasicAnimation(keyPath: "opacity")
+           flash.duration = 0.5
+           flash.fromValue = 1
+           flash.toValue = 0.1
+           flash.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
+           flash.autoreverses = true
+           flash.repeatCount = .infinity
+           Deals.layer.add(flash,forKey:nil)
+       }
     func getData(){
         ProductApi.GetAllProduct { (product) in
             self.productsArray.append(product)
             self.productCollectionView.reloadData()
         }
+        AdsApi.GetAllAd { (Ads) in
+            self.AdArray.append(Ads)
+            self.collectionview.reloadData()
+        }
     }
+   
+      
         
     @IBAction func DealsButton(_ sender: UIButton) {
-        sender.flash()
+       
     }
     
 }
@@ -80,7 +95,7 @@ extension HomeVC:UICollectionViewDelegate,UICollectionViewDataSource,UICollectio
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView.tag == 0{
-            return Array.count
+            return AdArray.count
         }else if collectionView.tag == 1{
             return productsArray.count
         }else if collectionView.tag == 2{
@@ -93,9 +108,9 @@ extension HomeVC:UICollectionViewDelegate,UICollectionViewDataSource,UICollectio
         if collectionView.tag == 0 {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! HomeAdCollectionViewCell
            
-            cell.update(URLS: Array[indexPath.row])
+            cell.update(AD: AdArray[indexPath.row])
             var rowIndex = indexPath.row
-            let numberOfRecords:Int = self.Array.count - 1
+            let numberOfRecords:Int = self.AdArray.count - 1
             if(rowIndex < numberOfRecords){
                 rowIndex = (rowIndex+1)
             }else{
@@ -120,24 +135,31 @@ extension HomeVC:UICollectionViewDelegate,UICollectionViewDataSource,UICollectio
         return UICollectionViewCell()
         
     }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if collectionView.tag == 0{
+            ProductApi.GetProduct(ID: self.AdArray[indexPath.row].ID!) { (product) in
+                 self.performSegue(withIdentifier: "showProduct", sender: product)
+            }
+           
+        }else if collectionView.tag == 1{
+            self.performSegue(withIdentifier: "showProduct", sender: self.productsArray[indexPath.row])
+            
+        }else if collectionView.tag == 2{
+            self.performSegue(withIdentifier: "showProduct", sender: self.DealProdArray[indexPath.row])
+        }
+       
+    }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let product = sender as? ProductObject{
+            if let next = segue.destination as? ProductVC{
+                next.product = product
+            }
+        }
+    }
     @objc func startTimer(theTimer:Timer)  {
         UIView.animate(withDuration: 0.0, delay: 0, options: .curveEaseOut, animations: {
             self.collectionview.scrollToItem(at: IndexPath(row: theTimer.userInfo! as! Int, section: 0), at: .centeredHorizontally, animated: true)
         }, completion: nil)
     }
-    
-    
-}
-extension UIButton{
-    
-    func flash(){
-    let flash = CABasicAnimation(keyPath: "opacity")
-           flash.duration = 0.5
-           flash.fromValue = 1
-           flash.toValue = 0.1
-           flash.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
-           flash.autoreverses = true
-           flash.repeatCount = 3
-           layer.add(flash,forKey:nil)
-    }
+  
 }

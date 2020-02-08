@@ -19,15 +19,15 @@ class ProductObject {
     var Description:String?
     var Company:String?
     var Price:Double?
-    var imageURL:String?
-    init(ID:String,Stamp:TimeInterval,Name:String,Description:String,Company:String,Price:Double,imageURL:String) {
+    var imageURLs:[String]?
+    init(ID:String,Stamp:TimeInterval,Name:String,Description:String,Company:String,Price:Double,imageURLs:[String]) {
         self.ID = ID
         self.Stamp = Stamp
         self.Name = Name
         self.Description = Description
         self.Company = Company
         self.Price = Price
-        self.imageURL = imageURL
+        self.imageURLs = imageURLs
     }
     init(Dictionary:[String:AnyObject]) {
         
@@ -37,7 +37,7 @@ class ProductObject {
         self.Description = Dictionary["Description"] as? String
         self.Company = Dictionary["Company"] as? String
         self.Price = Dictionary["Price"] as? Double
-        self.imageURL = Dictionary["imageURL"] as? String
+        self.imageURLs = Dictionary["imageURLs"] as? [String]
         
         
     }
@@ -49,7 +49,7 @@ class ProductObject {
         D["Description"] = self.Description as AnyObject
         D["Company"] = self.Company as AnyObject
         D["Price"] = self.Price as AnyObject
-        D["imageURL"] = self.imageURL as AnyObject
+        D["imageURLs"] = self.imageURLs as AnyObject
         return D
     }
     func Upload(){
